@@ -7,12 +7,12 @@ const createIssueSchema = z.object({
   description: z.string().min(1),
 });
 
-export default async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = createIssueSchema.safeParse(body);
 
   if (!validation.success) {
-    return NextResponse.json(validation.error.errors, { status: 400 });
+    return NextResponse.json(validation.error.format(), { status: 400 });
   }
 
   const newIssue = prisma.issue.create({
