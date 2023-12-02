@@ -31,7 +31,8 @@ export default function NewIssuePage() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/issues", data);
+      const response = await axios.post("/api/issues", data);
+      console.log(response);
       router.push("/issues");
     } catch (error) {
       setIsSubmitting(false);
