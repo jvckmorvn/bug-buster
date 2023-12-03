@@ -41,6 +41,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
         : await axios.post("/api/issues", data);
       console.log(response);
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       setError("Oops! Something went wrong.");
