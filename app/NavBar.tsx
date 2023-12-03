@@ -7,6 +7,28 @@ import classNames from "classnames";
 import { Box, Container, Flex } from "@radix-ui/themes";
 
 export default function NavBar() {
+  return (
+    <nav className="border-b mb-5 px-5 py-3">
+      <Container>
+        <Flex justify="between">
+          <Flex align="center" gap="3">
+            <Link href="/">
+              <AiFillBug />
+            </Link>
+            <NavLinks />
+          </Flex>
+          <Box>
+            <Link className="nav-link" href="#">
+              Login
+            </Link>
+          </Box>
+        </Flex>
+      </Container>
+    </nav>
+  );
+}
+
+function NavLinks() {
   const currentPath = usePathname();
 
   const links = [
@@ -21,35 +43,20 @@ export default function NavBar() {
   ];
 
   return (
-    <nav className="border-b mb-5 px-5 py-3">
-      <Container>
-        <Flex justify="between">
-          <Flex align="center" gap="3">
-            <Link href="/">
-              <AiFillBug />
-            </Link>
-            <ul className="flex space-x-6">
-              {links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    className={classNames({
-                      "text-zinc-900": link.href === currentPath,
-                      "text-zinc-500": link.href !== currentPath,
-                      "hover:text-zinc-800 transition-colors": true,
-                    })}
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Flex>
-          <Box>
-            <Link href="#">Login</Link>
-          </Box>
-        </Flex>
-      </Container>
-    </nav>
+    <ul className="flex space-x-6">
+      {links.map((link) => (
+        <li key={link.label}>
+          <Link
+            className={classNames({
+              "nav-link": true,
+              "!text-zinc-900": link.href === currentPath,
+            })}
+            href={link.href}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
