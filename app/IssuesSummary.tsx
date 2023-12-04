@@ -10,9 +10,9 @@ interface Props {
 
 export default function IssuesSummary({ open, inProgress, closed }: Props) {
   const containers: { label: string; value: number; status: Status }[] = [
-    { label: "Open Issues", value: open, status: "OPEN" },
+    { label: "Open Issues", value: inProgress, status: "OPEN" },
     { label: "In Progress Issues", value: open, status: "IN_PROGRESS" },
-    { label: "Closed Issues", value: open, status: "CLOSED" },
+    { label: "Closed Issues", value: closed, status: "CLOSED" },
   ];
   return (
     <Flex gap="3">

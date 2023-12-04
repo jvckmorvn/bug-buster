@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import IssuesSummary from "./IssuesSummary";
+import IssuesChart from "./IssuesChart";
 
 export default async function Home() {
   const prisma = new PrismaClient();
@@ -13,7 +14,7 @@ export default async function Home() {
   });
 
   return (
-    <IssuesSummary
+    <IssuesChart
       open={openIssues}
       inProgress={inProgressIssues}
       closed={closedIssues}
