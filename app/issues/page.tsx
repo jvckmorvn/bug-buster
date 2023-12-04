@@ -5,12 +5,13 @@ import Link from "next/link";
 import IssuesToolbar from "./IssuesToolbar";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "../components/Pagination";
 
-export default async function IssuesPage({
-  searchParams,
-}: {
-  searchParams: { status: Status; orderBy: keyof Issue };
-}) {
+interface Props {
+  searchParams: { status: Status; orderBy: keyof Issue; page: string };
+}
+
+export default async function IssuesPage({ searchParams }: Props) {
   const columns: { label: string; value: keyof Issue; className?: string }[] = [
     { label: "Issue", value: "title" },
     {
@@ -36,12 +37,17 @@ export default async function IssuesPage({
     ? { [searchParams.orderBy]: "asc" }
     : undefined;
 
+  const where = { status };
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
   const issues = await prisma.issue.findMany({
-    where: {
-      status,
-    },
+    where: where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+
+  const issuesCount = await prisma.issue.count({ where: where });
 
   return (
     <div>
@@ -83,6 +89,11 @@ export default async function IssuesPage({
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={issuesCount}
+      />
     </div>
   );
 }
