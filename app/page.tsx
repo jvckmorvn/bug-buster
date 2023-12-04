@@ -3,6 +3,7 @@ import IssuesChart from "./IssuesChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import IssuesSummary from "./IssuesSummary";
 import LatestIssues from "./LatestIssues";
+import { Metadata } from "next/types";
 
 export default async function Home() {
   const prisma = new PrismaClient();
@@ -30,3 +31,8 @@ export default async function Home() {
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Dashboard | Bug Buster",
+  description: "View a summary of project issues",
+};

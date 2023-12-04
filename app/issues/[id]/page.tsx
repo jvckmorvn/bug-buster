@@ -6,11 +6,11 @@ import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
 import AssigneeSelect from "./AssigneeSelect";
 
-export default async function IssueDetailsPage({
-  params,
-}: {
+interface Props {
   params: { id: string };
-}) {
+}
+
+export default async function IssueDetailsPage({ params }: Props) {
   const prisma = new PrismaClient();
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
@@ -34,4 +34,20 @@ export default async function IssueDetailsPage({
       </Box>
     </Grid>
   );
+}
+
+export async function generateMetadata({ params }: Props) {
+  const prisma = new PrismaClient();
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!issue) {
+    return null;
+  }
+
+  return {
+    title: `${issue.title} | Bug Buster`,
+    description: `Details of issue ${issue.id}`,
+  };
 }
